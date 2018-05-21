@@ -7,7 +7,6 @@ MouseArea{
     property int swipeOffset: parent.width/2;
     property int originX: mouseX;
 
-    property var gestureStartTime;
     property bool gestureStarted: false;
 
     signal swipeEnded(var diff);
@@ -37,9 +36,6 @@ MouseArea{
         }
 
         var diff = (oldX - mouseX);
-        if(handleFlick(diff)){
-            return;
-        }
         if( haldleDrag(mouseX, diff)){
             return;
         }
@@ -62,25 +58,6 @@ MouseArea{
             }
         } else {
             if( Math.abs(originX-xPos) >  swipeOffset ){
-                root.swipeEnded(xPosDiff);
-                resetGesture();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function handleFlick(xPosDiff){
-        var now = new Date();
-        var timeDiff = now - gestureStartTime;
-
-        //high velocity and large diff between start end point
-        if(timeDiff < 40 && Math.abs(xPosDiff) > 10 ){
-            if(xPosDiff < 0) {
-                root.swipeEnded(xPosDiff);
-                resetGesture();
-                return true;
-            } else {
                 root.swipeEnded(xPosDiff);
                 resetGesture();
                 return true;
